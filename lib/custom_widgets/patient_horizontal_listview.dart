@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'text_widget.dart';
 
 class PatientHorizontalListSectionView extends StatelessWidget {
@@ -113,7 +112,7 @@ class PatientProfileView extends StatelessWidget {
 
 BoxDecoration patientBoxDecoration() {
   return BoxDecoration(
-    color: const Color.fromARGB(255, 12, 83, 141),
+    color: const Color.fromRGBO(47, 106, 192, 1),
     borderRadius: BorderRadius.circular(5.0),
   );
 }

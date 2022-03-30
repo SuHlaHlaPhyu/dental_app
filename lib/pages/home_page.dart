@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 
+import '../custom_painter/verticle_time_line.dart';
 import '../custom_widgets/patient_horizontal_listview.dart';
 import '../custom_widgets/text_widget.dart';
 
@@ -12,12 +13,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<int> testList = [1, 2, 3, 4, 5];
+  List<String> timeList = [
+    "8:00",
+    "8:30",
+    "9:00",
+    "9:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+  ];
+  List<int> eventList = [1, 2, 3, 4, 5];
 
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(247, 251, 254, 1),
       body: SafeArea(
         child: Stack(
           children: [
@@ -67,8 +81,199 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            Positioned(
+              left: 30.0,
+              top: 18 * 18,
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TimeAndEventTitleView(),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Row(
+                      children: [
+                        TimeListView(
+                          timeList: timeList,
+                        ),
+                        const SizedBox(
+                          width: 28.0,
+                        ),
+                        SizedBox(
+                          height: 100,
+                          width: 10,
+                          child: CustomPaint(
+                            painter: VerticalTimeLine(),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 28.0,
+                        ),
+                        Column(
+                          children: eventList
+                              .map((e) => const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 16.0,
+                                    ),
+                                    child: EventItemView(),
+                                  ))
+                              .toList(),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TimeItemView extends StatelessWidget {
+  const TimeItemView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 15.0,
+          ),
+          child: TextWidget(
+            text: "8 : 00",
+            color: Colors.grey,
+            size: 13.0,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 15.0,
+          ),
+          child: TextWidget(
+            text: "8 : 30",
+            color: Colors.grey,
+            size: 13.0,
+          ),
+        ),
+      ],
+    );
+  }
+}
+// Row(
+//   children: const [
+//     TimeItemView(),
+//     SizedBox(
+//       width: 60.0,
+//     ),
+//     EventItemView(),
+//   ],
+// )
+
+class EventItemView extends StatelessWidget {
+  const EventItemView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      // elevation: 0.2,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+        ),
+        height: 50.0,
+        width: 13 * 13,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.alarm,
+              size: 18.0,
+              color: Colors.black38,
+            ),
+            const SizedBox(
+              width: 8.0,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextWidget(
+                  text: "Treeth Drilling",
+                  color: Colors.black,
+                ),
+                const SizedBox(
+                  height: 3.0,
+                ),
+                TextWidget(
+                  text: "8:00 - 8:30",
+                  color: Colors.black,
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TimeAndEventTitleView extends StatelessWidget {
+  const TimeAndEventTitleView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        TextWidget(
+          text: "Time",
+          color: Colors.black,
+          size: 16,
+        ),
+        const SizedBox(
+          width: 60.0,
+        ),
+        TextWidget(
+          text: "Events",
+          color: Colors.black,
+          size: 16,
+        ),
+      ],
+    );
+  }
+}
+
+class TimeListView extends StatelessWidget {
+  final List<String> timeList;
+  TimeListView({required this.timeList});
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: timeList
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15.0,
+                ),
+                child: TextWidget(
+                  text: e,
+                  color: Colors.grey,
+                  size: 13.0,
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
