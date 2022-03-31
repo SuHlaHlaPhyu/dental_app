@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:dental_app/pages/detail_page.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_painter/verticle_time_line.dart';
@@ -31,103 +32,117 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(247, 251, 254, 1),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                decoration: homeBoxDecoration(),
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height / 3.8,
-              ),
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              decoration: homeBoxDecoration(),
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height / 3.8,
             ),
-            Positioned(
-              left: 30.0,
-              right: 40.0,
-              top: 6 * 6,
+          ),
+          Positioned(
+            left: 30.0,
+            right: 40.0,
+            top: 6 * 6,
+            child: SizedBox(
+              height: kToolbarHeight,
               child: HeaderSectionView(
                 controller: _searchController,
               ),
             ),
-            Positioned(
-              left: 30.0,
-              right: 40.0,
-              top: 10.5 * 10.5,
-              child: MyPatientsSectionView(
-                totalPatients: "12 total",
+          ),
+          Positioned(
+            left: 30.0,
+            right: 40.0,
+            top: 10.5 * 10.5,
+            child: MyPatientsSectionView(
+              totalPatients: "12 total",
+            ),
+          ),
+          Positioned(
+            left: 30.0,
+            top: 13 * 13,
+            child: SizedBox(
+              height: 100,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: 5,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                    children: [
+                      PatientHorizontalListSectionView(),
+                      const SizedBox(
+                        width: 5.0,
+                      )
+                    ],
+                  );
+                },
               ),
             ),
-            Positioned(
-              left: 30.0,
-              top: 13 * 13,
-              child: SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: 5,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: [
-                        PatientHorizontalListSectionView(),
-                        const SizedBox(
-                          width: 5.0,
-                        )
-                      ],
-                    );
-                  },
-                ),
+          ),
+          Positioned(
+            left: 30.0,
+            top: 18 * 18,
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TimeAndEventTitleView(),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  Row(
+                    children: [
+                      TimeListView(
+                        timeList: timeList,
+                      ),
+                      const SizedBox(
+                        width: 28.0,
+                      ),
+                      SizedBox(
+                        height: 100,
+                        width: 10,
+                        child: CustomPaint(
+                          painter: VerticalTimeLine(),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 28.0,
+                      ),
+                      Column(
+                        children: eventList
+                            .map((e) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16.0,
+                                  ),
+                                  child: EventItemView(
+                                    onTap: () {
+                                      _navigateToDetailsScreen(context);
+                                    },
+                                  ),
+                                ))
+                            .toList(),
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              left: 30.0,
-              top: 18 * 18,
-              child: SizedBox(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const TimeAndEventTitleView(),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: [
-                        TimeListView(
-                          timeList: timeList,
-                        ),
-                        const SizedBox(
-                          width: 28.0,
-                        ),
-                        SizedBox(
-                          height: 100,
-                          width: 10,
-                          child: CustomPaint(
-                            painter: VerticalTimeLine(),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 28.0,
-                        ),
-                        Column(
-                          children: eventList
-                              .map((e) => const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 16.0,
-                                    ),
-                                    child: EventItemView(),
-                                  ))
-                              .toList(),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _navigateToDetailsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetailsPage(),
       ),
     );
   }
@@ -177,50 +192,56 @@ class TimeItemView extends StatelessWidget {
 // )
 
 class EventItemView extends StatelessWidget {
-  const EventItemView({Key? key}) : super(key: key);
+  final Function onTap;
+  EventItemView({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      // elevation: 0.2,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
-        ),
-        height: 50.0,
-        width: 13 * 13,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Row(
-          children: [
-            const Icon(
-              Icons.alarm,
-              size: 18.0,
-              color: Colors.black38,
-            ),
-            const SizedBox(
-              width: 8.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextWidget(
-                  text: "Treeth Drilling",
-                  color: Colors.black,
-                ),
-                const SizedBox(
-                  height: 3.0,
-                ),
-                TextWidget(
-                  text: "8:00 - 8:30",
-                  color: Colors.black,
-                )
-              ],
-            )
-          ],
+    return GestureDetector(
+      onTap: () {
+        //
+        onTap();
+      },
+      child: Card(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+          ),
+          height: 50.0,
+          width: 13 * 13,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.alarm,
+                size: 18.0,
+                color: Colors.black38,
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextWidget(
+                    text: "Treeth Drilling",
+                    color: Colors.black,
+                  ),
+                  const SizedBox(
+                    height: 3.0,
+                  ),
+                  TextWidget(
+                    text: "8:00 - 8:30",
+                    color: Colors.black,
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

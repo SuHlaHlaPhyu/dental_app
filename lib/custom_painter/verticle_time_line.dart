@@ -23,7 +23,12 @@ class VerticalTimeLine extends CustomPainter {
     double dashHeight = 5, dashSpace = 3, startY = 0;
     while (startY < size.height) {
       canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
+
+      /// dash line
       startY += dashHeight + dashSpace;
+
+      /// line
+      startY += dashHeight;
     }
   }
 }
