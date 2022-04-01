@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:dental_app/custom_painter/verticle_dotted_time_line.dart';
 import 'package:dental_app/pages/detail_page.dart';
 import 'package:flutter/material.dart';
 
@@ -25,8 +26,14 @@ class _HomePageState extends State<HomePage> {
     "11:30",
     "12:00",
     "12:30",
+    "1:00",
+    "1:30",
+    "2:00",
+    "2:30",
+    "3:00",
+    "3:30",
   ];
-  List<int> eventList = [1, 2, 3, 4, 5];
+  List<int> eventList = [1, 2, 3, 4, 5, 6, 7, 8];
 
   final TextEditingController _searchController = TextEditingController();
   @override
@@ -74,7 +81,12 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (BuildContext context, int index) {
                   return Row(
                     children: [
-                      PatientHorizontalListSectionView(),
+                      PatientHorizontalListSectionView(
+                        onTap: () {
+                          _navigateToDetailsScreen(context);
+                        },
+                        isDetail: false,
+                      ),
                       const SizedBox(
                         width: 5.0,
                       )
@@ -89,6 +101,7 @@ class _HomePageState extends State<HomePage> {
             top: 18 * 18,
             child: SizedBox(
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TimeAndEventTitleView(),
@@ -96,6 +109,7 @@ class _HomePageState extends State<HomePage> {
                     height: 20.0,
                   ),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       TimeListView(
                         timeList: timeList,
@@ -103,12 +117,21 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         width: 28.0,
                       ),
-                      SizedBox(
-                        height: 100,
-                        width: 10,
-                        child: CustomPaint(
-                          painter: VerticalTimeLine(),
-                        ),
+                      Column(
+                        children: timeList.map(
+                          (e) {
+                            return SizedBox(
+                              height: 40,
+                              width: 10,
+                              child: CustomPaint(
+                                painter:
+                                    e == "9:00" || e == "8:00" || e == "8:30"
+                                        ? VerticalDottedTimeLine()
+                                        : VerticalTimeLine(),
+                              ),
+                            );
+                          },
+                        ).toList(),
                       ),
                       const SizedBox(
                         width: 28.0,
@@ -278,24 +301,22 @@ class TimeListView extends StatelessWidget {
   TimeListView({required this.timeList});
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: timeList
-            .map(
-              (e) => Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 15.0,
-                ),
-                child: TextWidget(
-                  text: e,
-                  color: Colors.grey,
-                  size: 13.0,
-                ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: timeList
+          .map(
+            (e) => Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15.0,
               ),
-            )
-            .toList(),
-      ),
+              child: TextWidget(
+                text: e,
+                color: Colors.grey,
+                size: 13.0,
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

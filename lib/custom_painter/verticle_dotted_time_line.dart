@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VerticalTimeLine extends CustomPainter {
+class VerticalDottedTimeLine extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
@@ -29,10 +29,10 @@ class VerticalTimeLine extends CustomPainter {
       canvas.drawLine(Offset(0, startY), Offset(0, startY + dashHeight), paint);
 
       /// dash line
-      //startY += dashHeight + dashSpace;
+      startY += dashHeight + dashSpace;
 
       /// line
-      startY += dashHeight;
+      //startY += dashHeight;
     }
   }
 }

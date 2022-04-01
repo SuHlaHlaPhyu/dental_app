@@ -1,5 +1,4 @@
 import 'package:dental_app/custom_painter/custom_clock.dart';
-import 'package:dental_app/custom_widgets/event_horizontal_listview.dart';
 import 'package:dental_app/custom_widgets/patient_horizontal_listview.dart';
 import 'package:dental_app/custom_widgets/text_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +23,12 @@ class _DetailsPageState extends State<DetailsPage> {
                 Container(
                   decoration: linearBoxDecoration(),
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 3.5,
+                  height: MediaQuery.of(context).size.height / 2,
                 ),
                 Container(
                   decoration: blueBoxDecoration(),
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height / 1.8,
+                  height: MediaQuery.of(context).size.height / 2,
                 ),
               ],
             ),
@@ -67,10 +66,8 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
           ),
-          Positioned(
-            left: 10.0,
-            right: 10.0,
-            top: MediaQuery.of(context).size.height / 5.5,
+          Align(
+            alignment: Alignment.center,
             child: SizedBox(
               height: 200,
               width: 200,
@@ -93,7 +90,19 @@ class _DetailsPageState extends State<DetailsPage> {
                 itemBuilder: (BuildContext context, int index) {
                   return Row(
                     children: [
-                      PatientHorizontalListSectionView(),
+                      PatientHorizontalListSectionView(
+                        isDetail: true,
+                        onTap: () {
+                          _navigateToDetailsScreen(BuildContext context) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsPage(),
+                              ),
+                            );
+                          }
+                        },
+                      ),
                       const SizedBox(
                         width: 5.0,
                       )
@@ -103,30 +112,30 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
           ),
-          Positioned(
-            left: 10.0,
-            right: 10.0,
-            bottom: MediaQuery.of(context).size.height / 3.5,
-            child: SizedBox(
-              height: 150,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    children: const [
-                      EventHorizontalListView(),
-                      SizedBox(
-                        width: 5.0,
-                      )
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
+          // Positioned(
+          //   left: 10.0,
+          //   right: 10.0,
+          //   bottom: MediaQuery.of(context).size.height / 3.5,
+          //   child: SizedBox(
+          //     height: 150,
+          //     child: ListView.builder(
+          //       scrollDirection: Axis.horizontal,
+          //       shrinkWrap: true,
+          //       physics: const AlwaysScrollableScrollPhysics(),
+          //       itemCount: 5,
+          //       itemBuilder: (BuildContext context, int index) {
+          //         return Row(
+          //           children: const [
+          //             EventHorizontalListView(),
+          //             SizedBox(
+          //               width: 5.0,
+          //             )
+          //           ],
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
