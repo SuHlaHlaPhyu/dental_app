@@ -66,6 +66,23 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
             ),
           ),
+          Positioned(
+            left: 30.0,
+            right: 10.0,
+            top: 120.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextWidget(
+                  text: "Office No .248",
+                  isBold: true,
+                  size: 16,
+                ),
+                TextWidget(text: "12 total"),
+              ],
+            ),
+          ),
           Align(
             alignment: Alignment.center,
             child: SizedBox(
@@ -74,6 +91,23 @@ class _DetailsPageState extends State<DetailsPage> {
               child: CustomPaint(
                 painter: CustomClock(),
               ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextWidget(
+                  text: "2 : 42",
+                  size: 20,
+                  isBold: true,
+                ),
+                TextWidget(
+                  text: "PM",
+                  size: 15,
+                ),
+              ],
             ),
           ),
           Positioned(

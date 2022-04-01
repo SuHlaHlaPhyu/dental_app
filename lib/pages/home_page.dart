@@ -1,10 +1,12 @@
 import 'package:badges/badges.dart';
 import 'package:dental_app/custom_painter/verticle_dotted_time_line.dart';
 import 'package:dental_app/pages/detail_page.dart';
+import 'package:dental_app/pages/event_detail_page.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_painter/verticle_time_line.dart';
 import '../custom_widgets/patient_horizontal_listview.dart';
+import '../custom_widgets/smart_list_view.dart';
 import '../custom_widgets/text_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     "3:00",
     "3:30",
   ];
-  List<int> eventList = [1, 2, 3, 4, 5, 6, 7, 8];
+  List<int> eventList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   final TextEditingController _searchController = TextEditingController();
   @override
@@ -99,60 +101,73 @@ class _HomePageState extends State<HomePage> {
           Positioned(
             left: 30.0,
             top: 18 * 18,
+            right: 0.0,
+            bottom: 0.0,
             child: SizedBox(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TimeAndEventTitleView(),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TimeListView(
-                        timeList: timeList,
-                      ),
-                      const SizedBox(
-                        width: 28.0,
-                      ),
-                      Column(
-                        children: timeList.map(
-                          (e) {
-                            return SizedBox(
-                              height: 40,
-                              width: 10,
-                              child: CustomPaint(
-                                painter:
-                                    e == "9:00" || e == "8:00" || e == "8:30"
-                                        ? VerticalDottedTimeLine()
-                                        : VerticalTimeLine(),
-                              ),
-                            );
-                          },
-                        ).toList(),
-                      ),
-                      const SizedBox(
-                        width: 28.0,
-                      ),
-                      Column(
-                        children: eventList
-                            .map((e) => Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16.0,
-                                  ),
-                                  child: EventItemView(
-                                    onTap: () {
-                                      _navigateToDetailsScreen(context);
-                                    },
-                                  ),
-                                ))
-                            .toList(),
-                      )
-                    ],
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TimeAndEventTitleView(),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TimeListView(
+                      timeList: timeList,
+                      onListEndReach: () {
+                        print("===========> end");
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 90,
+            top: 19.3 * 19.3,
+            child: Column(
+              children: timeList.map(
+                (e) {
+                  return SizedBox(
+                    height: 40,
+                    width: 10,
+                    child: CustomPaint(
+                      painter: e == "9:00" || e == "8:00" || e == "8:30"
+                          ? VerticalDottedTimeLine()
+                          : VerticalTimeLine(),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+          Positioned(
+            left: 120.0,
+            top: 18 * 18,
+            right: 0.0,
+            bottom: 0.0,
+            child: SizedBox(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 40.0,
+                    ),
+                    EventListView(
+                      eventList: eventList,
+                      onTap: () {
+                        _navigateToDetailsScreen(context);
+                      },
+                      onListEndReach: () {
+                        print("===========> end");
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -204,15 +219,6 @@ class TimeItemView extends StatelessWidget {
     );
   }
 }
-// Row(
-//   children: const [
-//     TimeItemView(),
-//     SizedBox(
-//       width: 60.0,
-//     ),
-//     EventItemView(),
-//   ],
-// )
 
 class EventItemView extends StatelessWidget {
   final Function onTap;
@@ -298,26 +304,72 @@ class TimeAndEventTitleView extends StatelessWidget {
 
 class TimeListView extends StatelessWidget {
   final List<String> timeList;
-  TimeListView({required this.timeList});
+  final Function onListEndReach;
+  TimeListView({required this.timeList, required this.onListEndReach});
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: timeList
-          .map(
-            (e) => Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15.0,
-              ),
-              child: TextWidget(
-                text: e,
-                color: Colors.grey,
-                size: 13.0,
-              ),
+    return timeList.isEmpty
+        ? const CircularProgressIndicator()
+        : SmartListView(
+            itemCount: timeList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15.0,
+                ),
+                child: TextWidget(
+                  text: timeList[index],
+                  color: Colors.grey,
+                  size: 13.0,
+                ),
+              );
+            },
+            padding: const EdgeInsets.only(
+              left: 0,
             ),
-          )
-          .toList(),
-    );
+            onListEndReached: () {
+              onListEndReach();
+            },
+          );
+  }
+}
+
+class EventListView extends StatelessWidget {
+  final List<int> eventList;
+  final Function onTap;
+  final Function onListEndReach;
+  EventListView({
+    required this.eventList,
+    required this.onTap,
+    required this.onListEndReach,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return eventList.isEmpty
+        ? const CircularProgressIndicator()
+        : SmartListView(
+            itemCount: eventList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                ),
+                child: EventItemView(
+                  onTap: () {
+                    onTap();
+                  },
+                ),
+              );
+            },
+            padding: const EdgeInsets.only(
+              left: 0,
+            ),
+            onListEndReached: () {
+              onListEndReach();
+            },
+          );
   }
 }
 
