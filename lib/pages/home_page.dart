@@ -1,7 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:dental_app/custom_painter/verticle_dotted_time_line.dart';
 import 'package:dental_app/pages/detail_page.dart';
-import 'package:dental_app/pages/event_detail_page.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_painter/verticle_time_line.dart';
@@ -71,8 +70,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            //  left: 30.0,
+            left: 0,
             top: 13 * 13,
+            bottom: 0,
+            right: 0,
             child: SizedBox(
               height: 100,
               child: ListView.builder(

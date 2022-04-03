@@ -39,16 +39,11 @@ class _SmartListViewState extends State<SmartListView> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _refresh,
-      child: Container(
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: widget.itemBuilder,
-          itemCount: widget.itemCount,
-          controller: _scrollController,
-          //scrollDirection: Axis.vertical,
-          padding: widget.padding,
-        ),
+      child: ListView.builder(
+        itemBuilder: widget.itemBuilder,
+        itemCount: widget.itemCount,
+        controller: _scrollController,
+        padding: widget.padding,
       ),
     );
   }
