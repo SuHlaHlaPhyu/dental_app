@@ -19,26 +19,16 @@ class CustomClock extends CustomPainter {
       ..color = const Color.fromRGBO(45, 96, 183, 1)
       ..style = PaintingStyle.fill;
 
-    // var dottedCircle = Paint()
-    //   ..strokeWidth = 2.0
-    //   ..color = const Color.fromARGB(255, 161, 158, 158)
-    //   ..style = PaintingStyle.stroke;
-
     var innerCircle = Paint()
       ..strokeWidth = 0.0
       ..color = const Color.fromRGBO(26, 69, 140, 1)
       ..style = PaintingStyle.fill;
 
-    // var dashBrush = Paint()
-    //   ..color = Color(0xFFEAECFF)
-    //   ..style = PaintingStyle.stroke
-    //   ..strokeCap = StrokeCap.round
-    //   ..strokeWidth = 1;
-
     canvas.drawCircle(
         Offset(size.width / 2, size.height / 2), 150, outerCircle);
     canvas.drawCircle(
         Offset(size.width / 2, size.height / 2), 135, outerSecondCircle);
+
     final Paint paint = Paint()..color = Colors.white;
     double filledCircleRadius = 2;
     int numberOfDots = 22;
@@ -52,6 +42,7 @@ class CustomClock extends CustomPainter {
         paint,
       );
     }
+
     canvas.drawCircle(Offset(size.width / 2, size.height / 2), 70, innerCircle);
   }
 
