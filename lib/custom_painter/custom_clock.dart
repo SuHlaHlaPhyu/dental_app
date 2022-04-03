@@ -7,8 +7,8 @@ class CustomClock extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var centerX = size.width / 2;
     var centerY = size.height / 2;
-    var center = Offset(centerX, centerY);
-    var radius = min(centerX, centerY);
+    // var center = Offset(centerX, centerY);
+    // var radius = min(centerX, centerY);
     var outerCircle = Paint()
       ..strokeWidth = 2.0
       ..color = const Color.fromARGB(255, 11, 128, 224)
@@ -19,28 +19,39 @@ class CustomClock extends CustomPainter {
       ..color = const Color.fromRGBO(45, 96, 183, 1)
       ..style = PaintingStyle.fill;
 
-    var dottedCircle = Paint()
-      ..strokeWidth = 2.0
-      ..color = const Color.fromARGB(255, 161, 158, 158)
-      ..style = PaintingStyle.stroke;
+    // var dottedCircle = Paint()
+    //   ..strokeWidth = 2.0
+    //   ..color = const Color.fromARGB(255, 161, 158, 158)
+    //   ..style = PaintingStyle.stroke;
 
     var innerCircle = Paint()
       ..strokeWidth = 0.0
       ..color = const Color.fromRGBO(26, 69, 140, 1)
       ..style = PaintingStyle.fill;
 
-    var dashBrush = Paint()
-      ..color = Color(0xFFEAECFF)
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round
-      ..strokeWidth = 1;
+    // var dashBrush = Paint()
+    //   ..color = Color(0xFFEAECFF)
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeCap = StrokeCap.round
+    //   ..strokeWidth = 1;
 
     canvas.drawCircle(
         Offset(size.width / 2, size.height / 2), 150, outerCircle);
     canvas.drawCircle(
         Offset(size.width / 2, size.height / 2), 135, outerSecondCircle);
-    canvas.drawCircle(
-        Offset(size.width / 2, size.height / 2), 110, dottedCircle);
+    final Paint paint = Paint()..color = Colors.white;
+    double filledCircleRadius = 2;
+    int numberOfDots = 22;
+    final double radiantStep = 2 * pi / numberOfDots;
+
+    for (int i = 0; i < numberOfDots; i++) {
+      canvas.drawCircle(
+        Offset(centerX + sin(i * radiantStep) * 105,
+            centerY + cos(i * radiantStep) * 105),
+        filledCircleRadius,
+        paint,
+      );
+    }
     canvas.drawCircle(Offset(size.width / 2, size.height / 2), 70, innerCircle);
   }
 

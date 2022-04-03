@@ -111,6 +111,63 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
           ),
           Positioned(
+            left: 50.0,
+            top: MediaQuery.of(context).size.height / 1.8,
+            child: Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 34, 147, 240),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                  size: 25.0,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 135.0,
+            top: MediaQuery.of(context).size.height / 1.56,
+            child: Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 34, 147, 240),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                  size: 25.0,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 47.0,
+            top: MediaQuery.of(context).size.height / 2.6,
+            child: Container(
+              height: 45,
+              width: 45,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 34, 147, 240),
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: const Center(
+                child: Icon(
+                  Icons.info,
+                  color: Colors.white,
+                  size: 25.0,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             left: 10.0,
             right: 10.0,
             bottom: MediaQuery.of(context).size.height / 8.9,

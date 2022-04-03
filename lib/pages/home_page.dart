@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-            left: 30.0,
+            //  left: 30.0,
             top: 13 * 13,
             child: SizedBox(
               height: 100,
