@@ -222,7 +222,8 @@ class TimeItemView extends StatelessWidget {
 
 class EventItemView extends StatelessWidget {
   final Function onTap;
-  EventItemView({required this.onTap});
+  final int index;
+  EventItemView({required this.onTap, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +233,7 @@ class EventItemView extends StatelessWidget {
         onTap();
       },
       child: Card(
+        elevation: index == 0 ? 0.0 : null,
         child: Container(
           padding: const EdgeInsets.symmetric(
             horizontal: 8.0,
@@ -357,6 +359,7 @@ class EventListView extends StatelessWidget {
                   vertical: 16.0,
                 ),
                 child: EventItemView(
+                  index: index,
                   onTap: () {
                     onTap();
                   },

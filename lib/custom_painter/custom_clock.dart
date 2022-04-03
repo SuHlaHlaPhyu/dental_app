@@ -7,8 +7,6 @@ class CustomClock extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var centerX = size.width / 2;
     var centerY = size.height / 2;
-    // var center = Offset(centerX, centerY);
-    // var radius = min(centerX, centerY);
     var outerCircle = Paint()
       ..strokeWidth = 2.0
       ..color = const Color.fromARGB(255, 11, 128, 224)
