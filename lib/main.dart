@@ -1,4 +1,4 @@
-import 'package:dental_app/pages/new_home_page.dart';
+import 'package:dental_app/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
     );
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: NewHomePage(),
+      home: MainPage(),
     );
   }
 }

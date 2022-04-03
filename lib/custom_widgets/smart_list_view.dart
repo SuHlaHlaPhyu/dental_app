@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class SmartListView extends StatefulWidget {
-  final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
-  final EdgeInsets padding;
+  final int itemCount;
   final Function onListEndReached;
+  final EdgeInsets padding;
 
-  SmartListView(
-      {required this.itemCount,
-      required this.itemBuilder,
-      required this.padding,
-      required this.onListEndReached});
+  SmartListView({
+    required this.itemCount,
+    required this.itemBuilder,
+    required this.padding,
+    required this.onListEndReached,
+  });
 
   @override
   State<SmartListView> createState() => _SmartListViewState();
@@ -21,34 +22,26 @@ class _SmartListViewState extends State<SmartListView> {
 
   @override
   void initState() {
-    super.initState();
-
     _scrollController.addListener(() {
       if (_scrollController.position.atEdge) {
+        // start
         if (_scrollController.position.pixels == 0) {
-          print("Start of the list reached");
+          debugPrint("start the list reached");
         } else {
-          print("End of the list reached");
+          debugPrint("end the list reached");
           widget.onListEndReached();
         }
       }
     });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _refresh,
-      child: ListView.builder(
-        itemBuilder: widget.itemBuilder,
-        itemCount: widget.itemCount,
+    return ListView.builder(
+        scrollDirection: Axis.vertical,
         controller: _scrollController,
-        padding: widget.padding,
-      ),
-    );
-  }
-
-  Future<void> _refresh() {
-    return Future.delayed(const Duration(seconds: 3));
+        itemCount: widget.itemCount,
+        itemBuilder: widget.itemBuilder);
   }
 }
